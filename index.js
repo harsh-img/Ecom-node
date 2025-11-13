@@ -1,18 +1,18 @@
-import "dotenv/config";
 import express from "express";
-import connectDb from "./src/config/db.js";
-import authRouter from "./src/routes/auth/auth.js";
+import dotenv from "dotenv";
+import connectDB from "./src/config/db.js";
+import mainRoute from "./src/routes/main.route.js";
 
-connectDb();
+dotenv.config();
+connectDB();
+
 const app = express();
 const port = process.env.PORT || 4000;
 
 app.use(express.json());
-app.use('/api/v1/auth',authRouter);
+app.use(express.urlencoded({extended:true}));
 
-app.get('/',(req,res)=>{
-    res.send('hello');
-});
+app.use("/",mainRoute);
 
 app.listen(port,()=>{
     console.log('server is running on',port);
